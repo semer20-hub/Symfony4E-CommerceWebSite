@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+{% block title%}Liste des Produit {% endblock %}
+{% block body %}
+{{form_start(form)}}
+
+    <div class="form-row align-items-end">
+      <div class="col">
+      {{form_row(form.nom)}}
+      </div>
+      <div class="col">
+      <div class="form-group">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </div>
+      </div>
+    </div>
+    
+    {{form_end(form)}}
+{% if articles %}
+
+    <table class="table">
+  <thead class="thead-dark">
+    <tr>
+        <th scope="col">Id</th>
+      <th scope="col">Name</th>
+      <th scope="col">Price</th>
+      <th scope="col">Description</th>
+      <th scope="col">Category</th>
+      <th scope="col">Size</th>
+      <th scope="col">Availability</th>
+      <th scope="col">Action</th>
+      <th scope="col"></th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for article in articles %}
+            <tr>
+            <th scope="row">{{ article.id }}</th>
+            <td>{{ article.nom }}</td>
+            <td>{{ article.prix }}</td>
+            <td>{{ article.deccription}}</td>
+            <td>{{ article.category.titre }}</td>
+            <td>{{ article.size }}</td>
+            <td>{% if article.stock > 0 %}
+    <span class="badge sec-bg mr-5 p-2">Disponible</span>
+            {% else %}
+            <span class="badge badge-danger mr-5 p-2">Indisponible</span>
+            {% endif %}</td>
+              <td><a href="/article/{{article.id}}" class="btn btn-dark">Details</a></td>
+             <td><a href="/article/delete/{{ article.id }}" class="btn btn-danger" onclick="return confirm('Etesvous sûr de supprimer cet article?');">Delete</a>
+              </td>
+              <td><a href="/article/edit/{{ article.id }}" class="btn btn-dark">Modify</a></td>
+            </tr>
+            {% endfor %}
+            </tbody>
+  
+</table>
+{% else %}
+    <p>No Products Found</p>
+    {% endif %}
+
+
+
+
+   
+{% endblock %}
